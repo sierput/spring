@@ -1,36 +1,38 @@
 package pl.tieto.mat;
 
+// import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "User")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotNull
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	@Size(min = 2, max = 20)
 	private String firstName;
 	@Size(min = 2, max = 20)
 	private String lastName;
 	private String email;
+	// private String password;
+	// private String passwordConfirm;
+	// private Set<Role> roles;
 
-	public User(Integer id, String firstName, String lastName, String email) {
+	public User(String firstName, String lastName, String email) {
 		super();
-		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 	}
 
 	public User() {
-		// TODO Auto-generated constructor stub
+		// Empty
 	}
 
 	@Override
