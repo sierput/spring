@@ -27,9 +27,22 @@
 				<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
 					Email Error</td>
 			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" th:field="*{password}" /></td>
+				<td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
+					Error</td>
+			</tr>
+			<tr>
+				<td>PasswordConfirm:</td>
+				<td><input type="password" th:field="*{passwordConfirm}" /></td>
+				<td th:if="${#fields.hasErrors('passwordConfirm')}"
+					th:errors="*{passwordConfirm}">Password Error</td>
+			</tr>
 		</table>
 		<input type="submit" value="Submit" /> <input type="reset"
 			value="Reset" /> <a href="/showusers">show users</a>
+			 <a href="/login">Sing in</a>
 	</form>
 </body>
 </html>

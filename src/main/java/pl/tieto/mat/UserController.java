@@ -12,6 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import pl.tieto.mat.service.UserServiceImpl;
 
 @Controller
 public class UserController {
@@ -19,11 +22,23 @@ public class UserController {
 	private String regexEmailValid = "^(.+)@(.+)$";
 	@Autowired
 	private UserRepository userRepositories;
+	@Autowired
+	private UserServiceImpl userService;
 
 	@GetMapping("/adduser")
 	public String greetingForm(Model model) {
 		model.addAttribute("user", new User());
 		return "user";
+	}
+	@GetMapping("/")
+	public @ResponseBody String homePage(Model model) {
+		return "Home Page";
+	}
+
+	@GetMapping("/login")
+	public String loginFrom(Model model) {
+		model.addAttribute("user", new User());
+		return "login";
 	}
 
 	@PostMapping("/adduser")
@@ -45,8 +60,8 @@ public class UserController {
 	}
 
 	private void addToDB(User user) {
-		userRepositories.save(user);
-	}
+		userService.save(user);
+		}
 
 	@GetMapping("/showusers")
 	public String showUser(Model model) {

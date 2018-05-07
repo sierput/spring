@@ -1,12 +1,11 @@
 package pl.tieto.mat;
 
-// import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,9 +19,9 @@ public class User {
 	@Size(min = 2, max = 20)
 	private String lastName;
 	private String email;
-	// private String password;
-	// private String passwordConfirm;
-	// private Set<Role> roles;
+	private String password;
+	@Transient
+	private String passwordConfirm;
 
 	public User(String firstName, String lastName, String email) {
 		super();
@@ -72,4 +71,21 @@ public class User {
 		this.email = email;
 	}
 
+	@Transient
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	@Transient
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
