@@ -1,18 +1,21 @@
 package pl.tieto.mat;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	@Size(min = 2, max = 20)
 	private String firstName;
@@ -23,11 +26,15 @@ public class User {
 	@Transient
 	private String passwordConfirm;
 
-	public User(String firstName, String lastName, String email) {
+	private Set<Role> roles;
+	private boolean approved;
+
+	public User(String firstName, String lastName, String email, boolean approved) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.approved = approved;
 	}
 
 	public User() {
@@ -39,6 +46,8 @@ public class User {
 		return firstName + ", " + lastName + ", " + email;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer getId() {
 		return id;
 	}
@@ -76,7 +85,6 @@ public class User {
 		return passwordConfirm;
 	}
 
-	@Transient
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
 	}
@@ -87,5 +95,23 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 }

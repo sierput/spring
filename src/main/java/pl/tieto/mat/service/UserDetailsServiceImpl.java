@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pl.tieto.mat.Role;
 import pl.tieto.mat.UserRepository;
 
 import java.util.HashSet;
@@ -23,16 +24,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		pl.tieto.mat.User user = userRepository.findByFirstName(username);
-		if(user == null)
+		if (user == null)
 			throw new org.springframework.security.core.userdetails.UsernameNotFoundException("User not exsist");
-	       Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-	        
-	            grantedAuthorities.add(new SimpleGrantedAuthority("user"));
-	        
-
-	        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), grantedAuthorities);
-	    }
-
-     
-	
+		if (!user.isApproved())
+			throw new org.springframework.security.core.userdetails.UsernameNotFoundException(
+					"User is not approve by admin");
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+		for (Role role : user.getRoles()) {
+			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(),
+				grantedAuthorities);
+	}
 }

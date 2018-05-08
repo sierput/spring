@@ -12,7 +12,7 @@
 			<td th:text="'firstName: ' + ${user.firstName}">first name</td>
 			<td th:text="'lastName: ' + ${user.lastName}">last name</td>
 			<td th:text="'email: ' + ${user.email}">email</td>
-			<td> <a th:href="@{/showWaitingUsers/edit/__${user.id}__}" type="submit">edit</a></td>
+			<td> <a th:href="@{/showWaitingUsers/approve/__${user.id}__}" type="submit">approve</a></td>
 		</tr>
 	</table>
 	<a href="/adduser">Submit another message</a>
