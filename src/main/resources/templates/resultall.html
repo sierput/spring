@@ -3,18 +3,34 @@
 <head>
 <title>Getting Started: Handling Form Submission</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Spring Security Example</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1>Result</h1>
-	<table border="1">
-		<tr th:each="user : ${users}">
-			<td th:text="'id: ' + ${user.id}">id</td>
-			<td th:text="'firstName: ' + ${user.firstName}">first name</td>
-			<td th:text="'lastName: ' + ${user.lastName}">last name</td>
-			<td th:text="'email: ' + ${user.email}">email</td>
-			<td> <a th:href="@{/showWaitingUsers/edit/__${user.id}__}" type="submit">edit</a></td>
-		</tr>
-	</table>
-	<a href="/adduser">Submit another message</a>
+	<div class="container">
+		<h1>Result</h1>
+		<table class="table">
+			<tr th:each="user : ${users}">
+				<td th:text="'id: ' + ${user.id}">id</td>
+				<td th:text="'firstName: ' + ${user.firstName}">first name</td>
+				<td th:text="'lastName: ' + ${user.lastName}">last name</td>
+				<td th:text="'email: ' + ${user.email}">email</td>
+				<td><a th:href="@{/showWaitingUsers/edit/__${user.id}__}"
+					class="btn btn-default" type="submit">edit</a></td>
+			</tr>
+		</table>
+		<a href="/adduser">Submit another message</a>
+	</div>
 </body>
 </html>

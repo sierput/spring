@@ -3,12 +3,25 @@
 <head>
 <title>Getting Started: Handling Form Submission</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Spring Security Example</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<h1>Form</h1>
-	<form action="#" th:action="@{/showWaitingUsers/edit/__${id}__}" th:object="${user}"
-		method="post">
-		<table border="1">
+	<form action="#" th:action="@{/showWaitingUsers/edit/__${id}__}"
+		th:object="${user}" method="post">
+		<table>
 			<tr>
 				<td>FirstName:</td>
 				<td><input type="text" th:field="*{firstName}" /></td>
@@ -18,8 +31,8 @@
 			<tr>
 				<td>LastName:</td>
 				<td><input type="text" th:field="*{lastName}" /></td>
-				<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
-					Last name Error</td>
+				<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last
+					name Error</td>
 			</tr>
 			<tr>
 				<td>Email:</td>
@@ -41,8 +54,8 @@
 			</tr>
 		</table>
 		<input type="submit" value="Submit" /> <input type="reset"
-			value="Reset" /> <a href="/showusers">show users</a>
-			 <a href="/login">Sing in</a>
+			value="Reset" /> <a href="/showusers">show users</a> <a
+			href="/login">Sing in</a>
 	</form>
 </body>
 </html>
