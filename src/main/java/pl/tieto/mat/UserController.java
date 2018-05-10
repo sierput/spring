@@ -101,10 +101,14 @@ public class UserController {
 
 	@GetMapping("/showWaitingUsers/approve/{id}")
 	public String usersApprove(Model model, @PathVariable(name = "id") int id) {
+		approveUser(id, dataSource);
+		return "showWaitingUsers";
+	}
+
+	public static void approveUser(int id, DataSource dataSource) {
 		String SQL = "update user set approved = 1 where id = ?";
 		JdbcTemplate jdbcTemplateObject = new JdbcTemplate(dataSource);
 		jdbcTemplateObject.update(SQL, id);
-		return "showWaitingUsers";
 	}
 
 	@GetMapping("/showWaitingUsers/edit/{id}")
@@ -124,12 +128,16 @@ public class UserController {
 																									// is temporary
 			return "userEditForm";
 		} else {
-			String SQL = "update user set email = ?, first_name = ?, last_name = ?, password = ? where id = ?";
-			JdbcTemplate jdbcTemplateObject = new JdbcTemplate(dataSource);
-			jdbcTemplateObject.update(SQL, user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword(),
-					user.getId());
+			updateUser(user, dataSource);
 			return "result";
 		}
+	}
+
+	public static void updateUser(User user, DataSource dataSource) {
+		String SQL = "update user set email = ?, first_name = ?, last_name = ?, password = ? where id = ?";
+		JdbcTemplate jdbcTemplateObject = new JdbcTemplate(dataSource);
+		jdbcTemplateObject.update(SQL, user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword(),
+				user.getId());
 	}
 
 	private boolean isAdminRole() {

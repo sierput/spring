@@ -2,6 +2,7 @@ package pl.tieto.mat;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 public class Role {
 
 	private Long id;
+	@Column(unique = true)
 	private String name;
 	private Set<User> users;
 
@@ -24,6 +26,7 @@ public class Role {
 	public Role() {
 		// empty
 	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -37,7 +40,7 @@ public class Role {
 	public String getName() {
 		return name;
 	}
-
+	@Column(unique = true)
 	public void setName(String name) {
 		this.name = name;
 	}

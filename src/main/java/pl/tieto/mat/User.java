@@ -29,12 +29,14 @@ public class User {
 	private Set<Role> roles;
 	private boolean approved;
 
-	public User(String firstName, String lastName, String email, boolean approved) {
+	public User(String firstName, String lastName, String email, boolean approved, String password, String passwordConfirm) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.approved = approved;
+		this.password = password;
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public User() {

@@ -16,20 +16,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.tieto.mat.Role;
 import pl.tieto.mat.RoleRepository;
 import pl.tieto.mat.User;
+import pl.tieto.mat.UserRepository;
 import pl.tieto.mat.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
-    private UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 	@Autowired
 	private UserServiceImpl userService;
-    @Autowired
-    private RoleRepository roleRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+
 	@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
+	protected void configure(HttpSecurity http) throws Exception {
+		http
             .authorizeRequests()
                 .antMatchers("/", "/adduser").permitAll()
                 .anyRequest().authenticated()
@@ -41,22 +45,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .permitAll();
     }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	}
+
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	@Override
 	public void init(WebSecurity web) throws Exception {
 		// created admin and roles
-		roleRepository.save(new Role("user"));
-		roleRepository.save(new Role("admin"));
-		User admin = new User("Mateusz","ed", "sierputx@gmail.com", true);
-		admin.setPassword("test");
-		admin.setPasswordConfirm("test");
+		if (roleRepository.findByName("admin") == null)
+			roleRepository.save(new Role("admin"));
+		if (roleRepository.findByName("user") == null)
+			roleRepository.save(new Role("user"));
+		for (User user : userRepository.findAll()) {
+			for (Role role : user.getRoles()) {
+				if (role.getName().equals("admin"))
+					super.init(web);
+				return;
+			}
+		}
+		User admin = new User("Mateusz", "ed", "sierputx@gmail.com", true, "test", "test");
 		admin.setRoles(new HashSet<>(roleRepository.findAll()));
 		userService.save(admin);
 		super.init(web);
